@@ -1,0 +1,10 @@
+{
+  "name": "media-box-downloader",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Chrome extension for box-selecting and bulk-downloading media.",
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check src/media-utils.js && node --check src/content-script.js && node --check src/background.js && node --check src/popup.js && npm test"
+  }
+}
