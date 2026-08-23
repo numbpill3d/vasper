@@ -1,4 +1,4 @@
-# Media Box Downloader
+# Vasper
 
 A privacy-conscious Manifest V3 Chrome extension that lets you drag a rectangle over a web page, review the media found inside it, and download selected files in bulk.
 
@@ -9,7 +9,7 @@ A privacy-conscious Manifest V3 Chrome extension that lets you drag a rectangle 
 - Reviews results in a side panel before downloading.
 - Select all, clear all, or toggle individual files.
 - Deduplicates repeated URLs.
-- Saves normal downloads under `Downloads/Media Box Downloads/` with numbered filenames.
+- Saves normal downloads under `Downloads/Vasper Downloads/` with numbered filenames.
 - Uses `activeTab`; it has no persistent access to browsing history or every page you visit.
 
 ## Install manually before the Chrome Web Store release
@@ -20,11 +20,11 @@ Until the extension is published in the Chrome Web Store, install it directly fr
 
 Choose either method:
 
-- **Without Git:** Open the [GitHub repository](https://github.com/numbpill3d/media-box-downloader), click **Code → Download ZIP**, and extract the downloaded archive.
+- **Without Git:** Open the [GitHub repository](https://github.com/numbpill3d/vasper), click **Code → Download ZIP**, and extract the downloaded archive.
 - **With Git:** Run:
 
   ```bash
-  git clone https://github.com/numbpill3d/media-box-downloader.git
+  git clone https://github.com/numbpill3d/vasper.git
   ```
 
 ### Load it in Chrome or Chromium
@@ -32,8 +32,8 @@ Choose either method:
 1. Open `chrome://extensions`.
 2. Enable **Developer mode** in the upper-right corner.
 3. Click **Load unpacked**.
-4. Select the extracted or cloned `media-box-downloader` folder—the folder containing `manifest.json`.
-5. Optionally pin **Media Box Downloader** from the browser's Extensions menu.
+4. Select the extracted folder containing `manifest.json`. If you cloned with Git, this is the `vasper` folder.
+5. Optionally pin **Vasper** from the browser's Extensions menu.
 
 Chrome may display a developer-mode notice because this installation did not come from the Web Store. The extension remains installed between browser restarts.
 
@@ -41,7 +41,7 @@ Chrome may display a developer-mode notice because this installation did not com
 
 1. Download and extract the latest source again, or run `git pull` inside the cloned repository.
 2. Return to `chrome://extensions`.
-3. Click the **Reload** button on the Media Box Downloader card.
+3. Click the **Reload** button on the Vasper card.
 
 ## Use
 

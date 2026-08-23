@@ -22,7 +22,7 @@ startButton.addEventListener('click', async () => {
 
     await chrome.scripting.insertCSS({ target: { tabId: tab.id }, files: ['src/content.css'] });
     await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['src/media-utils.js', 'src/content-script.js'] });
-    await chrome.tabs.sendMessage(tab.id, { type: 'MEDIA_BOX_START' });
+    await chrome.tabs.sendMessage(tab.id, { type: 'VASPER_START' });
     window.close();
   } catch (error) {
     showError(error?.message || 'Could not start the selector on this page.');

@@ -1,10 +1,10 @@
-(function mediaBoxContentScript() {
+(function vasperContentScript() {
   'use strict';
 
-  if (window.__mediaBoxDownloaderLoaded) return;
-  window.__mediaBoxDownloaderLoaded = true;
+  if (window.__vasperLoaded) return;
+  window.__vasperLoaded = true;
 
-  const { rectanglesIntersect, extractCssUrls, isLikelyMediaUrl, dedupeMedia, safeFilename } = MediaBoxUtils;
+  const { rectanglesIntersect, extractCssUrls, isLikelyMediaUrl, dedupeMedia, safeFilename } = VasperUtils;
   let root = null;
   let onEscape = null;
 
@@ -96,7 +96,7 @@
     const elements = document.body?.querySelectorAll('*') || [];
 
     for (const element of elements) {
-      if (element.closest?.('#mbd-root')) continue;
+      if (element.closest?.('#vasper-root')) continue;
       const rect = element.getBoundingClientRect();
       if (!rectanglesIntersect(selectionRect, rect)) continue;
       collectFromElement(element, items);
@@ -114,71 +114,71 @@
 
   function mediaPreview(item) {
     if (item.type === 'image' || item.previewUrl) {
-      const image = make('img', 'mbd-preview');
+      const image = make('img', 'vasper-preview');
       image.src = item.previewUrl || item.url;
       image.alt = '';
       image.referrerPolicy = 'no-referrer';
       return image;
     }
-    return make('div', 'mbd-preview mbd-placeholder', item.type.toUpperCase());
+    return make('div', 'vasper-preview vasper-placeholder', item.type.toUpperCase());
   }
 
   function renderPanel(items) {
     removeUi();
     root = make('div');
-    root.id = 'mbd-root';
-    const panel = make('section', 'mbd-panel');
+    root.id = 'vasper-root';
+    const panel = make('section', 'vasper-panel');
     panel.setAttribute('role', 'dialog');
     panel.setAttribute('aria-label', 'Selected media');
 
-    const header = make('header', 'mbd-header');
-    const titleRow = make('div', 'mbd-title-row');
-    titleRow.append(make('h2', 'mbd-title', 'Review media'));
-    const close = make('button', 'mbd-close', '×');
+    const header = make('header', 'vasper-header');
+    const titleRow = make('div', 'vasper-title-row');
+    titleRow.append(make('h2', 'vasper-title', 'Review media'));
+    const close = make('button', 'vasper-close', '×');
     close.type = 'button';
     close.setAttribute('aria-label', 'Close');
     close.addEventListener('click', removeUi);
     titleRow.append(close);
     header.append(titleRow);
 
-    const count = make('p', 'mbd-count');
+    const count = make('p', 'vasper-count');
     header.append(count);
-    const toolbar = make('div', 'mbd-toolbar');
-    const selectAll = make('button', 'mbd-small', 'Select all');
-    const clearAll = make('button', 'mbd-small', 'Clear');
+    const toolbar = make('div', 'vasper-toolbar');
+    const selectAll = make('button', 'vasper-small', 'Select all');
+    const clearAll = make('button', 'vasper-small', 'Clear');
     selectAll.type = clearAll.type = 'button';
     toolbar.append(selectAll, clearAll);
     header.append(toolbar);
     panel.append(header);
 
-    const list = make('div', 'mbd-list');
+    const list = make('div', 'vasper-list');
     const checks = [];
     if (!items.length) {
-      list.append(make('div', 'mbd-empty', 'No downloadable media was found inside that box. Close this panel and try a slightly larger area.'));
+      list.append(make('div', 'vasper-empty', 'No downloadable media was found inside that box. Close this panel and try a slightly larger area.'));
     }
 
     items.forEach((item, index) => {
-      const row = make('label', 'mbd-item');
-      const checkbox = make('input', 'mbd-check');
+      const row = make('label', 'vasper-item');
+      const checkbox = make('input', 'vasper-check');
       checkbox.type = 'checkbox';
       checkbox.checked = true;
       checkbox.dataset.index = String(index);
       checks.push(checkbox);
       row.append(checkbox, mediaPreview(item));
 
-      const meta = make('div', 'mbd-meta');
+      const meta = make('div', 'vasper-meta');
       const dimensions = item.width && item.height ? ` · ${item.width}×${item.height}` : '';
-      meta.append(make('div', 'mbd-name', `${item.label}${dimensions}`));
-      meta.append(make('div', 'mbd-url', item.url));
+      meta.append(make('div', 'vasper-name', `${item.label}${dimensions}`));
+      meta.append(make('div', 'vasper-url', item.url));
       row.append(meta);
       list.append(row);
     });
     panel.append(list);
 
-    const footer = make('footer', 'mbd-footer');
-    const download = make('button', 'mbd-primary');
+    const footer = make('footer', 'vasper-footer');
+    const download = make('button', 'vasper-primary');
     download.type = 'button';
-    const status = make('p', 'mbd-status', 'Files are saved under “Media Box Downloads”.');
+    const status = make('p', 'vasper-status', 'Files are saved under “Vasper Downloads”.');
     footer.append(download, status);
     panel.append(footer);
     root.append(panel);
@@ -223,7 +223,7 @@
 
       if (extensionItems.length) {
         try {
-          const response = await chrome.runtime.sendMessage({ type: 'MEDIA_BOX_DOWNLOAD', items: extensionItems });
+          const response = await chrome.runtime.sendMessage({ type: 'VASPER_DOWNLOAD', items: extensionItems });
           for (const result of response?.results || []) result.ok ? successes += 1 : failures += 1;
         } catch (_) {
           failures += extensionItems.length;
@@ -245,10 +245,10 @@
   function startSelection() {
     removeUi();
     root = make('div');
-    root.id = 'mbd-root';
-    const capture = make('div', 'mbd-capture');
-    const tip = make('div', 'mbd-tip', 'Drag over media · Esc to cancel');
-    const box = make('div', 'mbd-box');
+    root.id = 'vasper-root';
+    const capture = make('div', 'vasper-capture');
+    const tip = make('div', 'vasper-tip', 'Drag over media · Esc to cancel');
+    const box = make('div', 'vasper-box');
     capture.append(tip, box);
     root.append(capture);
     document.documentElement.append(root);
@@ -299,6 +299,6 @@
   }
 
   chrome.runtime.onMessage.addListener((message) => {
-    if (message?.type === 'MEDIA_BOX_START') startSelection();
+    if (message?.type === 'VASPER_START') startSelection();
   });
 })(window);

@@ -1,4 +1,4 @@
-(function initMediaBoxUtils(root) {
+(function initVasperUtils(root) {
   'use strict';
 
   const MEDIA_EXTENSION_RE = /\.(?:avif|bmp|gif|heic|heif|ico|jpe?g|png|svg|webp|apng|mp4|m4v|mov|webm|ogv|avi|mkv|mp3|m4a|aac|ogg|oga|wav|flac)(?:$|[?#])/i;
@@ -71,7 +71,7 @@
       filename = `${item.type || 'media'}.${extension}`;
     }
 
-    return `Media Box Downloads/${number}-${safeFilename(filename)}`;
+    return `Vasper Downloads/${number}-${safeFilename(filename)}`;
   }
 
   const api = {
@@ -83,6 +83,6 @@
     buildDownloadPath,
   };
 
-  root.MediaBoxUtils = api;
+  root.VasperUtils = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);
