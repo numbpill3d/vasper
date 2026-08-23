@@ -32,7 +32,7 @@ Choose either method:
 1. Open `chrome://extensions`.
 2. Enable **Developer mode** in the upper-right corner.
 3. Click **Load unpacked**.
-4. Select the extracted or cloned `vasper` folder—the folder containing `manifest.json`.
+4. Select the extracted folder containing `manifest.json`. If you cloned with Git, this is the `vasper` folder.
 5. Optionally pin **Vasper** from the browser's Extensions menu.
 
 Chrome may display a developer-mode notice because this installation did not come from the Web Store. The extension remains installed between browser restarts.
