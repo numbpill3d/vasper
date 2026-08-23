@@ -53,10 +53,10 @@ test('safeFilename strips unsafe path and query characters', () => {
 test('buildDownloadPath creates a stable numbered path and infers extension', () => {
   assert.equal(
     buildDownloadPath({ url: 'https://cdn.test/assets/photo.webp?width=500', type: 'image' }, 2),
-    'Media Box Downloads/003-photo.webp',
+    'Vasper Downloads/003-photo.webp',
   );
   assert.equal(
     buildDownloadPath({ url: 'data:image/png;base64,AAAA', type: 'image' }, 0),
-    'Media Box Downloads/001-image.png',
+    'Vasper Downloads/001-image.png',
   );
 });

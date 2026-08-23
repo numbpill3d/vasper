@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Media Box Downloader",
+  "name": "Vasper",
   "version": "1.0.0",
   "description": "Drag a box over images, GIFs, videos, audio, and background media, then download selected items in bulk.",
   "permissions": ["activeTab", "scripting", "downloads"],
@@ -11,7 +11,7 @@
     "128": "icons/icon-128.png"
   },
   "action": {
-    "default_title": "Media Box Downloader",
+    "default_title": "Vasper",
     "default_popup": "src/popup.html",
     "default_icon": {
       "16": "icons/icon-16.png",
