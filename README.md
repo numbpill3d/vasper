@@ -1,87 +1,107 @@
-# Vasper
+# vasper
 
-A privacy-conscious Manifest V3 Chrome extension that lets you drag a rectangle over a web page, review the media found inside it, and download selected files in bulk.
+privacy-conscious media selection and bulk downloading for chrome and chromium.
 
-## Features
+vasper is a manifest v3 browser extension that lets you drag a rectangle over a webpage, review the media found inside it, and download only the files you choose. it works with visible images, animated gifs, video, audio, svg images, canvases, direct media links, and css background images.
 
-- Drag-to-select any visible rectangular area.
-- Finds regular images, animated GIFs, video, audio, image inputs, SVG images, canvases, direct media links, and CSS background images.
-- Reviews results in a side panel before downloading.
-- Select all, clear all, or toggle individual files.
-- Deduplicates repeated URLs.
-- Saves normal downloads under `Downloads/Vasper Downloads/` with numbered filenames.
-- Uses `activeTab`; it has no persistent access to browsing history or every page you visit.
+## screenshots
 
-## Install manually before the Chrome Web Store release
+### review detected media before downloading
 
-Until the extension is published in the Chrome Web Store, install it directly from this repository.
+![vasper review panel showing six selected images on a sample webpage](screenshots/vasper-review-panel.png)
 
-### Download the source
+### start an area selection from the toolbar
 
-Choose either method:
+<img src="screenshots/vasper-popup.png" alt="vasper toolbar popup with the select an area button" width="340">
 
-- **Without Git:** Open the [GitHub repository](https://github.com/numbpill3d/vasper), click **Code → Download ZIP**, and extract the downloaded archive.
-- **With Git:** Run:
+## features
+
+- drag to select any visible rectangular area on a webpage
+- detect images, animated gifs, video, audio, image inputs, svg images, canvases, direct media links, and css background images
+- review every result in a side panel before downloading
+- select all, clear all, or toggle individual files
+- deduplicate repeated media urls
+- save downloads under `downloads/vasper downloads/` with stable numbered filenames
+- use narrow `activetab` access instead of persistent access to browsing history or every site
+- run without a build step or third-party runtime dependencies
+
+## install from source
+
+until a web store release is available, install vasper directly from this repository.
+
+### download the source
+
+choose either method:
+
+- without git: open the [repository](https://github.com/numbpill3d/vasper), select **code → download zip**, and extract the archive
+- with git:
 
   ```bash
   git clone https://github.com/numbpill3d/vasper.git
   ```
 
-### Load it in Chrome or Chromium
+### load vasper in chrome or chromium
 
-1. Open `chrome://extensions`.
-2. Enable **Developer mode** in the upper-right corner.
-3. Click **Load unpacked**.
-4. Select the extracted folder containing `manifest.json`. If you cloned with Git, this is the `vasper` folder.
-5. Optionally pin **Vasper** from the browser's Extensions menu.
+1. open `chrome://extensions`
+2. enable **developer mode**
+3. select **load unpacked**
+4. choose the extracted `vasper` folder containing `manifest.json`
+5. optionally pin vasper from the browser extensions menu
 
-Chrome may display a developer-mode notice because this installation did not come from the Web Store. The extension remains installed between browser restarts.
+chrome or chromium may show a developer-mode notice because the extension was installed outside the web store. the extension remains installed between browser restarts.
 
-### Update a manual installation
+### update a manual installation
 
-1. Download and extract the latest source again, or run `git pull` inside the cloned repository.
-2. Return to `chrome://extensions`.
-3. Click the **Reload** button on the Vasper card.
+1. download and extract the latest source again, or run `git pull` inside the cloned repository
+2. return to `chrome://extensions`
+3. select **reload** on the vasper extension card
 
-## Use
+## use
 
-1. Open a normal `http://` or `https://` page.
-2. Click the extension icon, then **Select an area**.
-3. Drag a box over the media you want. A small click also selects media under the pointer.
-4. Review the detected items, clear any you do not want, and click **Download**.
-5. Press `Esc` to cancel the selector or close the review panel.
+1. open a normal `http://` or `https://` webpage
+2. select the vasper toolbar icon, then select **select an area**
+3. drag a box over the media you want; a small click also selects media under the pointer
+4. review the detected items, clear anything you do not want, and select **download**
+5. press `esc` to cancel the selector or close the review panel
 
-If Chrome's **Ask where to save each file before downloading** option is enabled, Chrome may prompt for each file. Disable that browser setting for truly unattended bulk downloads.
+if the browser setting **ask where to save each file before downloading** is enabled, the browser may prompt for each file. disable that setting for unattended bulk downloads.
 
-## Known browser limitations
+## privacy and permissions
 
-- Chrome blocks extensions on internal pages such as `chrome://`, the Chrome Web Store, and some PDF/browser viewers.
-- Cross-origin iframe contents are not scanned from the top-level page.
-- DRM streams, segmented HLS/DASH playback, MediaSource streams, expired signed URLs, and server-protected files may not be directly downloadable.
-- Blob URLs are downloaded from the page context when possible; sites may revoke them before the download starts.
-- Cross-origin canvases cannot be exported because of browser security rules.
-- CSS images in pseudo-elements (`::before`/`::after`) are not currently included.
+vasper processes page media locally in the browser. it does not include analytics, remote services, accounts, or persistent access to every webpage.
 
-## Development
+- `activetab`: inspect only the tab where you explicitly start vasper
+- `scripting`: inject the temporary area selector and review panel
+- `downloads`: send selected files to the browser download manager
 
-No build step or third-party runtime dependencies are required.
+## known browser limitations
+
+- extensions cannot run on internal browser pages, the web store, and some built-in pdf viewers
+- cross-origin iframe contents are not scanned from the top-level page
+- drm streams, segmented hls or dash playback, mediasource streams, expired signed urls, and server-protected files may not be directly downloadable
+- blob urls are downloaded from the page context when possible, but sites may revoke them before the download starts
+- cross-origin canvases cannot be exported because of browser security rules
+- css images in pseudo-elements such as `::before` and `::after` are not currently included
+
+## development
 
 ```bash
 npm test
 npm run check
 ```
 
-Core utility behavior is covered with Node's built-in test runner. The extension service worker was also smoke-tested by loading the unpacked extension in headless Chromium.
+core utility behavior is covered by the built-in node test runner. the unpacked extension has also been smoke-tested in chromium.
 
-## Project layout
+## project layout
 
 ```text
-manifest.json            Manifest V3 configuration
-src/popup.*              Toolbar popup
-src/content-script.js    Box selection, media discovery, review panel
-src/content.css          Injected selector/review UI
-src/background.js        Chrome downloads API integration
-src/media-utils.js       Shared, tested utility functions
-icons/                   Extension icons
-test/                    Node tests
+manifest.json            manifest v3 configuration
+src/popup.*              toolbar popup
+src/content-script.js    area selection, media discovery, and review panel
+src/content.css          injected selector and review ui
+src/background.js        browser downloads api integration
+src/media-utils.js       shared, tested utility functions
+icons/                   extension icons
+screenshots/             readme screenshots
+test/                    node tests
 ```
