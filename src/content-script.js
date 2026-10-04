@@ -129,6 +129,7 @@
     root.id = 'vasper-root';
     const panel = make('section', 'vasper-panel');
     panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-modal', 'true');
     panel.setAttribute('aria-label', 'Selected media');
 
     const header = make('header', 'vasper-header');
@@ -183,6 +184,7 @@
     panel.append(footer);
     root.append(panel);
     document.documentElement.append(root);
+    close.focus();
 
     function updateCount() {
       const selected = checks.filter((checkbox) => checkbox.checked).length;
