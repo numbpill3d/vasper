@@ -1,5 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const {
   rectanglesIntersect,
@@ -59,4 +61,11 @@ test('buildDownloadPath creates a stable numbered path and infers extension', ()
     buildDownloadPath({ url: 'data:image/png;base64,AAAA', type: 'image' }, 0),
     'Vasper Downloads/001-image.png',
   );
+});
+
+test('the review dialog exposes modal semantics and receives keyboard focus', () => {
+  const contentScript = fs.readFileSync(path.join(__dirname, '../src/content-script.js'), 'utf8');
+  assert.equal(contentScript.includes("panel.setAttribute('aria-modal', 'true');"), true);
+  assert.equal(contentScript.includes('document.documentElement.append(root);'), true);
+  assert.equal(contentScript.includes('close.focus();'), true);
 });
